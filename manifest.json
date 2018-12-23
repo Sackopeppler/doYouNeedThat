@@ -1,0 +1,12 @@
+{
+  "name": "Do You Need That",
+  "version": "0.1",
+  "description": "",
+  "content_scripts": [
+    {"run_at": "document_end",
+    "matches": ["https://www.amazon.de/*"],
+    "js": ["injectAddToCart.js"],
+    "css": ["style.css"]}
+  ],
+  "manifest_version": 2
+}
