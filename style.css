@@ -9,6 +9,15 @@
   box-shadow: 0 0 0 4px rgba(0,0,0,.1);
 }
 
+#popupNeedThat h2 {
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+
+#popupNeedThat #addToCart {
+  margin-top: 30px;
+}
+
 .exit {
   color: black !important;
   text-decoration: none !important;
