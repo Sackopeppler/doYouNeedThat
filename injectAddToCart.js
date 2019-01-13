@@ -8,10 +8,14 @@ popup.innerHTML +=    '<div class="dynt-qbox">'
                     + '</div>';
 popup.innerHTML +=    '<div class="dynt-qbox">'
                     +   '<label for="aehnlichesProdukt">Hast du bereits ein ähnliches Produkt?</label>'
-                    +     '<select id="aehnlichesProdukt" name="aehnlichesProdukt">'
+                    +   '<select id="aehnlichesProdukt" name="aehnlichesProdukt" onchange="showHideVorteil(this)">'
                     +     '<option value="false" selected>Nein</option>'
                     +     '<option value="true">Ja</option>'
                     +   '</select>'
+                    + '</div>';
+popup.innerHTML +=    '<div id="vorteil" class="dynt-qbox" style="display: none">'
+                    +   '<label for="tbVorteil">Welchen Vorteil bietet dir das Produkt?</label>'
+                    +   '<textarea id="tbVorteil" name="tbVorteil" rows="4" cols="50"></textarea>'
                     + '</div>';
 popup.innerHTML +=    '<div class="dynt-qbox">'
                     +   '<label for="selNutzungsdauer">Wie lange wirst du das Produkt voraussichtlich verwenden?</label>'
@@ -30,4 +34,12 @@ var ogAddToCartBtn = document.getElementById('add-to-cart-button');
 if(ogAddToCartBtn != null) {
   ogAddToCartBtn.setAttribute('type', 'button'); // was submit before
   ogAddToCartBtn.setAttribute('onclick', 'popup.show()');
+}
+
+function showHideVorteil(elem) {
+  if(elem.value == "true") {
+    document.getElementById("vorteil").style.display = "block";
+  } else {
+    document.getElementById("vorteil").style.display = "none";
+  }
 }
