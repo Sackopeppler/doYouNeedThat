@@ -32,6 +32,13 @@ popup.innerHTML +=    '<div id="ausleihen" class="dynt-qbox" style="display: non
                     +     '<option value="true">Ja</option>'
                     +   '</select>'
                     + '</div>';
+popup.innerHTML +=    '<div class="dynt-qbox">'
+                    +   '<label for="selGebraucht">Kannst du das Produkt auch gebraucht kaufen?</label>'
+                    +   '<select id="selGebraucht" name="selGebraucht">'
+                    +     '<option value="false" selected>Nein</option>'
+                    +     '<option value="true">Ja</option>'
+                    +   '</select>'
+                    + '</div>';
 popup.innerHTML += '<div id="btn_addToCart" class="a-button-stack"><span id="submit.add-to-cart" class="a-button a-spacing-small a-button-primary a-button-icon"><span class="a-button-inner"><i class="a-icon a-icon-cart"></i><input id="add-to-cart-button" name="submit.add-to-cart" type="submit" form="addToCart" title="In den Einkaufswagen" data-hover="Wählen Sie <b>__dims__</b> auf der linken Seite<br> zum Hinzufügen zum Einkaufswagen" class="a-button-input" type="button" value="In den Einkaufswagen" aria-labelledby="submit.add-to-cart-announce"><span id="submit.add-to-cart-announce" class="a-button-text" aria-hidden="true">In den Einkaufswagen</span></span></span></div>';
 
 document.body.appendChild(popup);
