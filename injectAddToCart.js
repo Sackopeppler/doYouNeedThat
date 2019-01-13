@@ -19,11 +19,18 @@ popup.innerHTML +=    '<div id="vorteil" class="dynt-qbox" style="display: none"
                     + '</div>';
 popup.innerHTML +=    '<div class="dynt-qbox">'
                     +   '<label for="selNutzungsdauer">Wie lange wirst du das Produkt voraussichtlich verwenden?</label>'
-                    +   '<select id="selNutzungsdauer" name="selNutzungsdauer">'
+                    +   '<select id="selNutzungsdauer" name="selNutzungsdauer" onchange="showHideAusleihen(this)">'
                     +     '<option value="3" selected>Häufig</option>'
                     +     '<option value="2">Ab und zu</option>'
                     +     '<option value="1">Selten</option>'
                     +     '<option value="0">Einmalig</option>'
+                    + '</div>';
+popup.innerHTML +=    '<div id="ausleihen" class="dynt-qbox" style="display: none">'
+                    +   '<label for="selAusleihen">Kannst du das Produkt auch von jemandem ausleihen?</label>'
+                    +   '<select id="selAusleihen" name="selAusleihen" >'
+                    +     '<option value="false" selected>Nein</option>'
+                    +     '<option value="true">Ja</option>'
+                    +   '</select>'
                     + '</div>';
 popup.innerHTML += '<div id="btn_addToCart" class="a-button-stack"><span id="submit.add-to-cart" class="a-button a-spacing-small a-button-primary a-button-icon"><span class="a-button-inner"><i class="a-icon a-icon-cart"></i><input id="add-to-cart-button" name="submit.add-to-cart" type="submit" form="addToCart" title="In den Einkaufswagen" data-hover="Wählen Sie <b>__dims__</b> auf der linken Seite<br> zum Hinzufügen zum Einkaufswagen" class="a-button-input" type="button" value="In den Einkaufswagen" aria-labelledby="submit.add-to-cart-announce"><span id="submit.add-to-cart-announce" class="a-button-text" aria-hidden="true">In den Einkaufswagen</span></span></span></div>';
 
@@ -41,5 +48,13 @@ function showHideVorteil(elem) {
     document.getElementById("vorteil").style.display = "block";
   } else {
     document.getElementById("vorteil").style.display = "none";
+  }
+}
+
+function showHideAusleihen(elem) {
+  if(elem.value == "0" || elem.value == "1") {
+    document.getElementById("ausleihen").style.display = "block";
+  } else {
+    document.getElementById("ausleihen").style.display = "none";
   }
 }
