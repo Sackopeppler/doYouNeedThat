@@ -39,7 +39,7 @@ popup.innerHTML +=    '<div class="dynt-qbox">'
                     +     '<option value="true">Ja</option>'
                     +   '</select>'
                     + '</div>';
-popup.innerHTML += '<div id="btn_addToCart" class="a-button-stack"><span id="submit.add-to-cart" class="a-button a-spacing-small a-button-primary a-button-icon"><span class="a-button-inner"><i class="a-icon a-icon-cart"></i><input id="add-to-cart-button" name="submit.add-to-cart" type="submit" form="addToCart" title="In den Einkaufswagen" data-hover="Wählen Sie <b>__dims__</b> auf der linken Seite<br> zum Hinzufügen zum Einkaufswagen" class="a-button-input" type="button" value="In den Einkaufswagen" aria-labelledby="submit.add-to-cart-announce"><span id="submit.add-to-cart-announce" class="a-button-text" aria-hidden="true">In den Einkaufswagen</span></span></span></div>';
+popup.innerHTML += '<div id="btn_addToCart" class="a-button-stack"><span id="submit.add-to-cart" class="a-button a-spacing-small a-button-primary a-button-icon"><span class="a-button-inner"><i class="a-icon a-icon-cart"></i><input id="add-to-cart-button" name="submit.add-to-cart" type="submit" form="addToCart" onclick="save()" title="In den Einkaufswagen" data-hover="Wählen Sie <b>__dims__</b> auf der linken Seite<br> zum Hinzufügen zum Einkaufswagen" class="a-button-input" type="button" value="In den Einkaufswagen" aria-labelledby="submit.add-to-cart-announce"><span id="submit.add-to-cart-announce" class="a-button-text" aria-hidden="true">In den Einkaufswagen</span></span></span></div>';
 
 document.body.appendChild(popup);
 
@@ -64,4 +64,26 @@ function showHideAusleihen(elem) {
   } else {
     document.getElementById("ausleihen").style.display = "none";
   }
+}
+
+function save() {
+  chrome.storage.sync.get({einkaeufe: []}, function(result) {
+    result.einkaeufe.push({ id: incrementId(),
+                    datum: Date.now(),
+                    wofuer: document.getElementById("tbWofuer").value,
+                    aehnlichesProdukt: document.getElementById("aehnlichesProdukt").value,
+                    vorteil: document.getElementById("tbVorteil").value,
+                    nutzungsdauer: document.getElementById("selNutzungsdauer").value,
+                    ausleihen: document.getElementById("selAusleihen").value,
+                    gebraucht: document.getElementById("selGebraucht").value});
+    chrome.storage.sync.set({einkaeufe:  result.einkaeufe});
+  });
+}
+
+function incrementId() {
+  chrome.storage.sync.get({lastId: -1}, function(id) {
+    chrome.storage.sync.set({lastId: ++id});
+    return id;
+  });
+  return 0;
 }

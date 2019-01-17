@@ -2,11 +2,17 @@
   "name": "Do You Need That",
   "version": "0.1",
   "description": "",
+  "permissions": [
+          "storage"
+  ],
   "content_scripts": [
     {"run_at": "document_end",
     "matches": ["https://www.amazon.de/*"],
     "js": ["injectAddToCart.js"],
     "css": ["style.css"]}
   ],
+  "browser_action": {
+      "default_popup": "popup.html"
+  },
   "manifest_version": 2
 }
