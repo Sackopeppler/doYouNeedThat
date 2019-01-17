@@ -1,0 +1,15 @@
+body {
+  width: 300pt;
+}
+
+a {
+  color: black;
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 1.3em;
+  text-decoration: none;
+}
+
+.einkauf {
+  margin: 10px;
+  margin-bottom: 0px;
+}

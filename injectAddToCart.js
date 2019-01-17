@@ -70,6 +70,7 @@ function save() {
   chrome.storage.sync.get({einkaeufe: []}, function(result) {
     result.einkaeufe.push({ id: incrementId(),
                     datum: Date.now(),
+                    name: document.getElementById("productTitle").textContent,
                     wofuer: document.getElementById("tbWofuer").value,
                     aehnlichesProdukt: document.getElementById("aehnlichesProdukt").value,
                     vorteil: document.getElementById("tbVorteil").value,

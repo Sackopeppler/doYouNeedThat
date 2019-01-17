@@ -1,6 +1,6 @@
 chrome.storage.sync.get({einkaeufe: []}, function(result) {
   Array.prototype.forEach.call(result.einkaeufe, einkauf => {
-    document.body.innerHTML += '<a href="einkauf.html?id=' + einkauf.id + '">Einkauf vom ' + dateFormat(einkauf.datum) + '</a><br/>';
+    document.body.innerHTML += '<div class="einkauf"><a href="einkauf.html?id=' + einkauf.id + '">' + dateFormat(einkauf.datum) + ' - ' + einkauf.name + '</a></div><br/>';
   });
 });
 
