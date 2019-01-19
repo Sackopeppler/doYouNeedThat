@@ -9,6 +9,15 @@ a {
   text-decoration: none;
 }
 
+.datum {
+  float: left;
+  padding-right: 5px;
+}
+
+.name {
+  overflow: hidden;
+}
+
 .einkauf {
   margin: 10px;
   margin-bottom: 0px;

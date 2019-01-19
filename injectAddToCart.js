@@ -9,8 +9,8 @@ popup.innerHTML +=    '<div class="dynt-qbox">'
 popup.innerHTML +=    '<div class="dynt-qbox">'
                     +   '<label for="aehnlichesProdukt">Hast du bereits ein ähnliches Produkt?</label>'
                     +   '<select id="aehnlichesProdukt" name="aehnlichesProdukt" onchange="showHideVorteil(this)">'
-                    +     '<option value="false" selected>Nein</option>'
-                    +     '<option value="true">Ja</option>'
+                    +     '<option value="Nein" selected>Nein</option>'
+                    +     '<option value="Ja">Ja</option>'
                     +   '</select>'
                     + '</div>';
 popup.innerHTML +=    '<div id="vorteil" class="dynt-qbox" style="display: none">'
@@ -20,23 +20,23 @@ popup.innerHTML +=    '<div id="vorteil" class="dynt-qbox" style="display: none"
 popup.innerHTML +=    '<div class="dynt-qbox">'
                     +   '<label for="selNutzungsdauer">Wie lange wirst du das Produkt voraussichtlich verwenden?</label>'
                     +   '<select id="selNutzungsdauer" name="selNutzungsdauer" onchange="showHideAusleihen(this)">'
-                    +     '<option value="3" selected>Häufig</option>'
-                    +     '<option value="2">Ab und zu</option>'
-                    +     '<option value="1">Selten</option>'
-                    +     '<option value="0">Einmalig</option>'
+                    +     '<option value="Häufig" selected>Häufig</option>'
+                    +     '<option value="Ab und zu">Ab und zu</option>'
+                    +     '<option value="Selten">Selten</option>'
+                    +     '<option value="Einmalig">Einmalig</option>'
                     + '</div>';
 popup.innerHTML +=    '<div id="ausleihen" class="dynt-qbox" style="display: none">'
                     +   '<label for="selAusleihen">Kannst du das Produkt auch von jemandem ausleihen?</label>'
                     +   '<select id="selAusleihen" name="selAusleihen" >'
-                    +     '<option value="false" selected>Nein</option>'
-                    +     '<option value="true">Ja</option>'
+                    +     '<option value="Nein" selected>Nein</option>'
+                    +     '<option value="Ja">Ja</option>'
                     +   '</select>'
                     + '</div>';
 popup.innerHTML +=    '<div class="dynt-qbox">'
                     +   '<label for="selGebraucht">Kannst du das Produkt auch gebraucht kaufen?</label>'
                     +   '<select id="selGebraucht" name="selGebraucht">'
-                    +     '<option value="false" selected>Nein</option>'
-                    +     '<option value="true">Ja</option>'
+                    +     '<option value="Nein" selected>Nein</option>'
+                    +     '<option value="Ja">Ja</option>'
                     +   '</select>'
                     + '</div>';
 popup.innerHTML += '<div id="btn_addToCart" class="a-button-stack"><span id="submit.add-to-cart" class="a-button a-spacing-small a-button-primary a-button-icon"><span class="a-button-inner"><i class="a-icon a-icon-cart"></i><input id="add-to-cart-button" name="submit.add-to-cart" type="submit" form="addToCart" onclick="save()" title="In den Einkaufswagen" data-hover="Wählen Sie <b>__dims__</b> auf der linken Seite<br> zum Hinzufügen zum Einkaufswagen" class="a-button-input" type="button" value="In den Einkaufswagen" aria-labelledby="submit.add-to-cart-announce"><span id="submit.add-to-cart-announce" class="a-button-text" aria-hidden="true">In den Einkaufswagen</span></span></span></div>';
@@ -51,7 +51,7 @@ if(ogAddToCartBtn != null) {
 }
 
 function showHideVorteil(elem) {
-  if(elem.value == "true") {
+  if(elem.value == "Ja") {
     document.getElementById("vorteil").style.display = "block";
   } else {
     document.getElementById("vorteil").style.display = "none";
@@ -59,7 +59,7 @@ function showHideVorteil(elem) {
 }
 
 function showHideAusleihen(elem) {
-  if(elem.value == "0" || elem.value == "1") {
+  if(elem.value == "Selten" || elem.value == "Einmalig") {
     document.getElementById("ausleihen").style.display = "block";
   } else {
     document.getElementById("ausleihen").style.display = "none";
@@ -67,8 +67,10 @@ function showHideAusleihen(elem) {
 }
 
 function save() {
-  chrome.storage.sync.get({einkaeufe: []}, function(result) {
-    result.einkaeufe.push({ id: incrementId(),
+  chrome.storage.sync.get({lastId: 0, einkaeufe: []}, function(result) {
+    var einkaeufe = result.einkaeufe;
+    var id = result.lastId;
+    einkaeufe.push({ id: ++id,
                     datum: Date.now(),
                     name: document.getElementById("productTitle").textContent,
                     wofuer: document.getElementById("tbWofuer").value,
@@ -77,14 +79,6 @@ function save() {
                     nutzungsdauer: document.getElementById("selNutzungsdauer").value,
                     ausleihen: document.getElementById("selAusleihen").value,
                     gebraucht: document.getElementById("selGebraucht").value});
-    chrome.storage.sync.set({einkaeufe:  result.einkaeufe});
+    chrome.storage.sync.set({einkaeufe:  einkaeufe});
   });
-}
-
-function incrementId() {
-  chrome.storage.sync.get({lastId: -1}, function(id) {
-    chrome.storage.sync.set({lastId: ++id});
-    return id;
-  });
-  return 0;
 }
