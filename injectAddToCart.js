@@ -18,7 +18,7 @@ popup.innerHTML +=    '<div id="vorteil" class="dynt-qbox" style="display: none"
                     +   '<textarea id="tbVorteil" name="tbVorteil" rows="4" cols="50"></textarea>'
                     + '</div>';
 popup.innerHTML +=    '<div class="dynt-qbox">'
-                    +   '<label for="selNutzungsdauer">Wie lange wirst du das Produkt voraussichtlich verwenden?</label>'
+                    +   '<label for="selNutzungsdauer">Wie oft wirst du das Produkt voraussichtlich verwenden?</label>'
                     +   '<select id="selNutzungsdauer" name="selNutzungsdauer" onchange="showHideAusleihen(this)">'
                     +     '<option value="Häufig" selected>Häufig</option>'
                     +     '<option value="Ab und zu">Ab und zu</option>'
