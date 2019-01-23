@@ -79,6 +79,6 @@ function save() {
                     nutzungsdauer: document.getElementById("selNutzungsdauer").value,
                     ausleihen: document.getElementById("selAusleihen").value,
                     gebraucht: document.getElementById("selGebraucht").value});
-    chrome.storage.sync.set({einkaeufe:  einkaeufe});
+    chrome.storage.sync.set({lastId: id, einkaeufe:  einkaeufe});
   });
 }
