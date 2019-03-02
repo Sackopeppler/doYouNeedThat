@@ -47,7 +47,7 @@ var ogAddToCartBtn = document.getElementById('add-to-cart-button');
 
 if(ogAddToCartBtn != null) {
   ogAddToCartBtn.setAttribute('type', 'button'); // was submit before
-  ogAddToCartBtn.setAttribute('onclick', 'popup.show()');
+  ogAddToCartBtn.setAttribute('onclick', 'document.getElementById("add-to-cart-button").show()');
 }
 
 function showHideVorteil(elem) {
