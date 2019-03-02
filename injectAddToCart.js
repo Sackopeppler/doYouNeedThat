@@ -1,6 +1,6 @@
 var popup = document.createElement('dialog');
 popup.id = 'popupNeedThat';
-popup.innerHTML =  '<a href="javascript:void(0)" class="exit" onclick="popup.close()"></a>';
+popup.innerHTML =  '<a href="javascript:void(0)" class="exit" onclick="document.getElementById(\'popupNeedThat\').close()"></a>';
 popup.innerHTML += '<h1>Brauchst du das wirklich?</h1>';
 popup.innerHTML +=    '<div class="dynt-qbox">'
                     +   '<label for="tbWofuer">Wofür wirst du dieses Produkt verwenden?</label>'
@@ -8,7 +8,7 @@ popup.innerHTML +=    '<div class="dynt-qbox">'
                     + '</div>';
 popup.innerHTML +=    '<div class="dynt-qbox">'
                     +   '<label for="aehnlichesProdukt">Hast du bereits ein ähnliches Produkt?</label>'
-                    +   '<select id="aehnlichesProdukt" name="aehnlichesProdukt" onchange="showHideVorteil(this)">'
+                    +   '<select id="aehnlichesProdukt" name="aehnlichesProdukt" onchange="if(this.value == \'Ja\') {document.getElementById(\'vorteil\').style.display = \'block\';} else {document.getElementById(\'vorteil\').style.display = \'none\';}">'
                     +     '<option value="Nein" selected>Nein</option>'
                     +     '<option value="Ja">Ja</option>'
                     +   '</select>'
@@ -19,7 +19,7 @@ popup.innerHTML +=    '<div id="vorteil" class="dynt-qbox" style="display: none"
                     + '</div>';
 popup.innerHTML +=    '<div class="dynt-qbox">'
                     +   '<label for="selNutzungsdauer">Wie oft wirst du das Produkt voraussichtlich verwenden?</label>'
-                    +   '<select id="selNutzungsdauer" name="selNutzungsdauer" onchange="showHideAusleihen(this)">'
+                    +   '<select id="selNutzungsdauer" name="selNutzungsdauer" onchange="if(this.value == \'Selten\' || this.value == \'Einmalig\') {document.getElementById(\'ausleihen\').style.display = \'block\';} else {document.getElementById(\'ausleihen\').style.display = \'none\';}">'
                     +     '<option value="Häufig" selected>Häufig</option>'
                     +     '<option value="Ab und zu">Ab und zu</option>'
                     +     '<option value="Selten">Selten</option>'
@@ -39,7 +39,7 @@ popup.innerHTML +=    '<div class="dynt-qbox">'
                     +     '<option value="Ja">Ja</option>'
                     +   '</select>'
                     + '</div>';
-popup.innerHTML += '<div id="btn_addToCart" class="a-button-stack"><span id="submit.add-to-cart" class="a-button a-spacing-small a-button-primary a-button-icon"><span class="a-button-inner"><i class="a-icon a-icon-cart"></i><input id="add-to-cart-button" name="submit.add-to-cart" type="submit" form="addToCart" onclick="save()" title="In den Einkaufswagen" data-hover="Wählen Sie <b>__dims__</b> auf der linken Seite<br> zum Hinzufügen zum Einkaufswagen" class="a-button-input" type="button" value="In den Einkaufswagen" aria-labelledby="submit.add-to-cart-announce"><span id="submit.add-to-cart-announce" class="a-button-text" aria-hidden="true">In den Einkaufswagen</span></span></span></div>';
+popup.innerHTML += '<div id="btn_addToCart" class="a-button-stack"><span id="submit.add-to-cart" class="a-button a-spacing-small a-button-primary a-button-icon"><span class="a-button-inner"><i class="a-icon a-icon-cart"></i><input id="add-to-cart-button" name="submit.add-to-cart" type="submit" form="addToCart" onclick="chrome.storage.sync.get({lastId: 0, einkaeufe: []}, function(result) {var einkaeufe = result.einkaeufe;var id = result.lastId;einkaeufe.push({ id: ++id,datum: Date.now(),name: document.getElementById(\'productTitle\').textContent,wofuer: document.getElementById(\'tbWofuer\').value,aehnlichesProdukt: document.getElementById(\'aehnlichesProdukt\').value,vorteil: document.getElementById(\'tbVorteil\').value,nutzungsdauer: document.getElementById(\'selNutzungsdauer\').value,ausleihen: document.getElementById(\'selAusleihen\').value,gebraucht: document.getElementById(\'selGebraucht\').value});chrome.storage.sync.set({lastId: id, einkaeufe:  einkaeufe});});" title="In den Einkaufswagen" data-hover="Wählen Sie <b>__dims__</b> auf der linken Seite<br> zum Hinzufügen zum Einkaufswagen" class="a-button-input" type="button" value="In den Einkaufswagen" aria-labelledby="submit.add-to-cart-announce"><span id="submit.add-to-cart-announce" class="a-button-text" aria-hidden="true">In den Einkaufswagen</span></span></span></div>';
 
 document.body.appendChild(popup);
 
@@ -47,38 +47,5 @@ var ogAddToCartBtn = document.getElementById('add-to-cart-button');
 
 if(ogAddToCartBtn != null) {
   ogAddToCartBtn.setAttribute('type', 'button'); // was submit before
-  ogAddToCartBtn.setAttribute('onclick', 'document.getElementById("add-to-cart-button").show()');
-}
-
-function showHideVorteil(elem) {
-  if(elem.value == "Ja") {
-    document.getElementById("vorteil").style.display = "block";
-  } else {
-    document.getElementById("vorteil").style.display = "none";
-  }
-}
-
-function showHideAusleihen(elem) {
-  if(elem.value == "Selten" || elem.value == "Einmalig") {
-    document.getElementById("ausleihen").style.display = "block";
-  } else {
-    document.getElementById("ausleihen").style.display = "none";
-  }
-}
-
-function save() {
-  chrome.storage.sync.get({lastId: 0, einkaeufe: []}, function(result) {
-    var einkaeufe = result.einkaeufe;
-    var id = result.lastId;
-    einkaeufe.push({ id: ++id,
-                    datum: Date.now(),
-                    name: document.getElementById("productTitle").textContent,
-                    wofuer: document.getElementById("tbWofuer").value,
-                    aehnlichesProdukt: document.getElementById("aehnlichesProdukt").value,
-                    vorteil: document.getElementById("tbVorteil").value,
-                    nutzungsdauer: document.getElementById("selNutzungsdauer").value,
-                    ausleihen: document.getElementById("selAusleihen").value,
-                    gebraucht: document.getElementById("selGebraucht").value});
-    chrome.storage.sync.set({lastId: id, einkaeufe:  einkaeufe});
-  });
+  ogAddToCartBtn.setAttribute('onclick', 'document.getElementById("popupNeedThat").show()');
 }
